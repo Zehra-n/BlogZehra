@@ -1,0 +1,122 @@
+/* Allgemeine Einstellungen */
+html, body {
+    height: 100%; /* Stellt sicher, dass die Seite den gesamten Viewport einnimmt */
+    margin: 0;    /* Entfernt Standardabstände */
+}
+
+/* Flexbox-Layout für den gesamten Body */
+body {
+    display: flex;
+    flex-direction: column; /* Stellt sicher, dass der Inhalt und Footer in einer Spalte angeordnet sind */
+    min-height: 100%; /* Sorgt dafür, dass der Body mindestens die Höhe des Viewports hat */
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    color: #333;
+    margin: 0;
+}
+
+/* Main Content Bereich */
+main {
+    flex-grow: 1; /* Lässt den Main-Bereich den verbleibenden Platz einnehmen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* Hier kannst du ein bisschen Abstand zum Rand hinzufügen */
+}
+
+/* Header */
+header {
+    background-color: #6a0dad; /* Violett */
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+header h1 a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+
+header h1 a:hover {
+    color: #ddd;
+}
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+header nav ul li a:hover {
+    color: #ddd;
+}
+
+.cards {
+    display: flex;
+    gap: 2rem;
+}
+
+.card {
+    background-color: #6a0dad; /* Violett */
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+footer {
+    background-color: #6a0dad; /* Violett */
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    width: 100%;
+    position: relative; /* Fügt sicher, dass der Footer immer am Ende bleibt */
+    bottom: 0;          /* Stellt sicher, dass der Footer unten bleibt */
+    margin-top: auto;   /* Stellt sicher, dass der Footer nach oben schiebt, wenn der Inhalt nicht genug ist */
+}
+
+
+
+/* Media Queries für Responsive Design */
+@media (max-width: 768px) {
+    .blog-list {
+        padding: 0 20px;
+    }
+    .blog-card {
+        padding: 15px;
+    }
+}
