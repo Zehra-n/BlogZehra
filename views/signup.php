@@ -111,9 +111,8 @@
     </div>
 </main>
 
-<footer>
-    <p>&copy; 2024 | Zehras Blog</p>
-</footer>
 
 </body>
 </html>
+
+
