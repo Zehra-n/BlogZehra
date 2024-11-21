@@ -144,7 +144,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <p>Already have an account? <a href="login.php"> Log in</a></p>
 
-        <!-- Fehlernachricht, falls der Benutzername bereits vergeben ist oder andere Fehler auftreten -->
         <?php
         if (isset($error_message)) {
             echo "<p class='error-message'>$error_message</p>";

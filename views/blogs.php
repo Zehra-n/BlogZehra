@@ -1,5 +1,16 @@
 <?php
-require "templates/header.php";
+// Datenbankverbindung und Header einbinden
+require 'db.php';
+require "templates/header.php"; // Header einbinden
+
+// Start der Session nur, wenn noch keine besteht
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Abrufen der Blog-Posts aus der Tabelle 'posts' in der Datenbank 'blog'
+$stmt = $pdo->query("SELECT * FROM posts ORDER BY created_at DESC");
+$posts = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -7,39 +18,43 @@ require "templates/header.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beiträge - Blog</title>
+    <title>Blogs</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        h1 {
+            font-size: 2.5rem;
+            color: #6a0dad;
+            margin-top: 20px;
+            text-align: center;
+        }
 
-        .content-container {
-            width: 100%;
-            max-width: 90%;
-            height: 70%;
-            margin: 50px auto;
-            background: #fff;
-            padding: 2rem;
+        .blog-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
-        post-title {
-
-            font-size: 1.5rem;
-            color: #6a0dad;
-            margin-bottom: 1rem;
-        }
-
-        .post-content {
-            font-size: 1rem;
-            color: #333;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
+        .blog-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
 
         .no-posts {
-            text-align: center;
             font-size: 1.2rem;
-            color: #555;
+            color: #333;
+            margin: 20px 0;
+            text-align: center;
         }
 
         .no-posts a {
@@ -50,43 +65,69 @@ require "templates/header.php";
         .no-posts a:hover {
             text-decoration: underline;
         }
+
+        .blog-title {
+            font-size: 1.8rem;
+            color: #6a0dad;
+            margin-bottom: 10px;
+        }
+
+        .blog-content {
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .blog-meta {
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        .blog-meta span {
+            display: block; /* Damit jeder Meta-Tag auf einer neuen Zeile erscheint */
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
 
+<h1>Blogs</h1>
 
-<?php
-require 'db.php';
+<?php if (empty($posts)): ?>
+    <!-- Wenn keine Blog-Posts existieren -->
+    <p class="no-posts">There are currently no blogs. <a href="BlogsWriting.php">Write your own blog!</a></p>
+<?php else: ?>
+    <!-- Wenn Blog-Posts existieren, zeige sie in Containern -->
+    <?php foreach ($posts as $post): ?>
+        <?php
+        // Autorname aus der users-Tabelle holen
+        $author_stmt = $pdo->prepare("SELECT username FROM users WHERE id = :author_id");
+        $author_stmt->execute(['author_id' => $post['author_id']]);
+        $author = $author_stmt->fetch();
+        ?>
+        <div class="blog-container">
+            <h2 class="blog-title"><?php echo htmlspecialchars($post['title']); ?></h2>
+            <!-- Bild des Posts -->
+            <?php if ($post['image_url']): ?>
+                <img src="<?php echo htmlspecialchars($post['image_url']); ?>" alt="Blog image">
+            <?php endif; ?>
 
+            <p class="blog-content"><?php echo nl2br(htmlspecialchars($post['content'])); ?></p>
 
-try {
-    // Beiträge abrufen
-    $stmt = $pdo->prepare("SELECT posts.*, users.username FROM posts JOIN users ON posts.author_id = users.id ORDER BY posts.created_at DESC");
-    $stmt->execute();
-    $posts = $stmt->fetchAll();
-} catch (PDOException $e) {
-    echo "Fehler beim Laden der Beiträge: " . $e->getMessage();
-}
-?>
-
-<div class="content-container">
-    <h1>Blogs</h1>
-    <?php if (empty($posts)): ?>
-        <p class="no-posts">Es gibt momentan keine Blogs. <a href="BlogsWriting.php">Erstelle deinen Blog!</a></p>
-    <?php else: ?>
-        <?php foreach ($posts as $post): ?>
-            <div class="post">
-                <h2 class="post-title"><?= htmlspecialchars($post['title']) ?></h2>
-                <p class="post-content"><?= nl2br(htmlspecialchars($post['content'])) ?></p>
-                <?php if (!empty($post['image_url'])): ?>
-                    <img src="<?= htmlspecialchars($post['image_url']) ?>" alt="Beitragsbild" style="max-width: 100%; height: auto;">
-                <?php endif; ?>
-                <p>Geschrieben von: <?= htmlspecialchars($post['username']) ?> am <?= $post['created_at'] ?></p>
+            <div class="blog-meta">
+                <!-- Autor anzeigen -->
+                <span>By: <?php echo htmlspecialchars($author['username']); ?></span>
+                <!-- Erstellungsdatum formatieren -->
+                <span>Published on: <?php echo date('F j, Y, g:i a', strtotime($post['created_at'])); ?></span>
             </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
-</div>
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>
 
+<!-- Footer -->
 <footer>
     <p>&copy; 2024 | Zehras Blog</p>
 </footer>

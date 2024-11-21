@@ -72,26 +72,27 @@
         button:hover {
             background-color: #7b29a8;
         }
+
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-<main>
-    <h1>Write your own blog!</h1>
-    <form action="BlogsWriting.php" method="POST">
-
-        <label for="title">Titel:</label>
-        <input type="text" id="title" name="title" placeholder="Gib den Titel deines Blogs ein" required>
-
-        <label for="content">Inhalt:</label>
-        <textarea id="content" name="content" rows="5" placeholder="Schreibe hier deinen Beitrag" required></textarea>
-
-        <label for="image">Bild-URL:</label>
-        <input type="url" id="image" name="image" placeholder="Gib die URL eines Bildes ein (optional)">
-
-
-        <button type="submit">Beitrag erstellen</button>
-    </form>
-</main>
 
 <?php
 require 'db.php';
@@ -121,12 +122,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'author_id' => $author_id,
         ]);
 
-        echo "Beitrag erfolgreich erstellt! <a href='blogs.php'>Zu den Beiträgen</a>";
+        // Erfolgsnachricht
+        echo "<div class='success-message'>Post created successfully! <a href='blogs.php'>To the blogs</a></div>";
     } catch (PDOException $e) {
-        echo "Fehler beim Erstellen des Beitrags: " . $e->getMessage();
+        // Fehlermeldung
+        echo "<div class='error-message'>Error: " . $e->getMessage() . "</div>";
     }
 }
 ?>
+
+<main>
+    <h1>Write your own blog!</h1>
+    <form action="BlogsWriting.php" method="POST">
+
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" placeholder="Enter the title of your blog" required>
+
+        <label for="content">Content:</label>
+        <textarea id="content" name="content" rows="5" placeholder="Write your content here" required></textarea>
+
+        <label for="image">Image URL:</label>
+        <input type="url" id="image" name="image" placeholder="Enter the URL of an image (optional)">
+
+        <button type="submit">Create blog</button>
+    </form>
+</main>
 
 <footer>
     <p>&copy; 2024 | Zehras Blog</p>
