@@ -1,32 +1,27 @@
-/* Allgemeine Einstellungen */
 html, body {
-    height: 100%; /* Stellt sicher, dass die Seite den gesamten Viewport einnimmt */
-    margin: 0;    /* Entfernt Standardabstände */
-}
-
-/* Flexbox-Layout für den gesamten Body */
-body {
-    display: flex;
-    flex-direction: column; /* Stellt sicher, dass der Inhalt und Footer in einer Spalte angeordnet sind */
-    min-height: 100%; /* Sorgt dafür, dass der Body mindestens die Höhe des Viewports hat */
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
+    height: 100%;
     margin: 0;
 }
 
-/* Main Content Bereich */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
 main {
-    flex-grow: 1; /* Lässt den Main-Bereich den verbleibenden Platz einnehmen */
+    flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px; /* Hier kannst du ein bisschen Abstand zum Rand hinzufügen */
+    padding: 20px;
 }
 
-/* Header */
 header {
-    background-color: #6a0dad; /* Violett */
+    background-color: #6a0dad;
     color: white;
     padding: 1rem 0;
     text-align: center;
@@ -70,13 +65,16 @@ header nav ul li a:hover {
     color: #ddd;
 }
 
+/* Responsives Layout für die Karten */
 .cards {
     display: flex;
+    flex-wrap: wrap; /* Karten umbrochen */
     gap: 2rem;
+    justify-content: center; /* Zentriert die Karten */
 }
 
 .card {
-    background-color: #6a0dad; /* Violett */
+    background-color: #6a0dad;
     color: white;
     padding: 2rem;
     text-align: center;
@@ -84,12 +82,13 @@ header nav ul li a:hover {
     text-decoration: none;
     font-weight: bold;
     font-size: 1.2rem;
-    width: 200px;
-    height: 200px;
+    width: 250px; /* Festgelegte Breite der Karten */
+    height: 250px;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin: 10px;
 }
 
 .card:hover {
@@ -97,26 +96,49 @@ header nav ul li a:hover {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-
 footer {
-    background-color: #6a0dad; /* Violett */
+    background-color: #6a0dad;
     color: white;
     text-align: center;
-    padding: 1rem 0;
     width: 100%;
-    position: relative; /* Fügt sicher, dass der Footer immer am Ende bleibt */
-    bottom: 0;          /* Stellt sicher, dass der Footer unten bleibt */
-    margin-top: auto;   /* Stellt sicher, dass der Footer nach oben schiebt, wenn der Inhalt nicht genug ist */
+    position: relative;
+    bottom: 0;
+    margin-top: auto;
+    padding: 10px 0;
 }
 
+/* Media Queries für kleinere Bildschirmgrößen */
 
-
-/* Media Queries für Responsive Design */
+/* Für Tablets und größere Bildschirme (max. 768px) */
 @media (max-width: 768px) {
-    .blog-list {
-        padding: 0 20px;
+    .cards {
+        justify-content: center;
+        gap: 1rem; /* Weniger Abstand zwischen den Karten */
     }
-    .blog-card {
-        padding: 15px;
+
+    .card {
+        width: 45%; /* Karten auf Tablets 45% der Breite */
+        height: 220px; /* Leicht angepasste Höhe */
+        font-size: 1rem; /* Kleinere Schrift auf Tablets */
+    }
+}
+
+/* Für Smartphones und kleinere Bildschirme (max. 480px) */
+@media (max-width: 480px) {
+    .cards {
+        flex-direction: column; /* Karten untereinander anordnen */
+        gap: 1rem; /* Weniger Abstand zwischen den Karten */
+        justify-content: flex-start; /* Karten oben ausrichten */
+    }
+
+    .card {
+        width: 90%; /* Karten auf Smartphones füllen 90% der Breite */
+        height: 180px; /* Kleinere Höhe der Karten auf Smartphones */
+        font-size: 0.9rem; /* Kleinere Schrift auf Smartphones */
+        padding: 1rem; /* Weniger Padding auf kleinen Geräten */
+    }
+
+    footer {
+        padding: 20px 0; /* Mehr Abstand im Footer */
     }
 }

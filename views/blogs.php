@@ -1,14 +1,12 @@
 <?php
-// Datenbankverbindung und Header einbinden
-require 'db.php';
-require "templates/header.php"; // Header einbinden
 
-// Start der Session nur, wenn noch keine besteht
+require 'db.php';
+require "templates/header.php";
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Abrufen der Blog-Posts aus der Tabelle 'posts' in der Datenbank 'blog'
 $stmt = $pdo->query("SELECT * FROM posts ORDER BY created_at DESC");
 $posts = $stmt->fetchAll();
 ?>
@@ -80,15 +78,42 @@ $posts = $stmt->fetchAll();
         }
 
         .blog-meta {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #777;
             margin-top: 10px;
             text-align: left;
+            display: flex;
+            justify-content: flex-start;
+            gap: 20px;
         }
 
         .blog-meta span {
-            display: block;
-            margin-bottom: 5px;
+            display: inline-block;
+        }
+
+        .rating-stars {
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .rating-stars form {
+            display: inline-block;
+        }
+
+        .rating-stars input {
+            display: none;
+        }
+
+        .rating-stars label {
+            font-size: 2rem;
+            color: #ddd;
+            cursor: pointer;
+        }
+
+        .rating-stars input:checked ~ label,
+        .rating-stars label:hover,
+        .rating-stars label:hover ~ label {
+            color: #ffd700;
         }
     </style>
 </head>
@@ -97,20 +122,27 @@ $posts = $stmt->fetchAll();
 <h1>Blogs</h1>
 
 <?php if (empty($posts)): ?>
-    <!-- Wenn keine Blog-Posts existieren -->
+
     <p class="no-posts">There are currently no blogs. <a href="BlogsWriting.php">Write your own blog!</a></p>
 <?php else: ?>
-    <!-- Wenn Blog-Posts existieren, zeige sie in Containern -->
+
     <?php foreach ($posts as $post): ?>
         <?php
-        // Autorname aus der users-Tabelle holen
+
         $author_stmt = $pdo->prepare("SELECT username FROM users WHERE id = :author_id");
         $author_stmt->execute(['author_id' => $post['author_id']]);
         $author = $author_stmt->fetch();
+
+        $rating_stmt = $pdo->prepare("SELECT AVG(rating) AS average, COUNT(rating) AS total FROM ratings WHERE post_id = :post_id");
+        $rating_stmt->execute(['post_id' => $post['id']]);
+        $ratingData = $rating_stmt->fetch();
+        $averageRating = $ratingData['average'] ?? 0;
+        $totalRatings = $ratingData['total'] ?? 0;
         ?>
+
         <div class="blog-container">
             <h2 class="blog-title"><?php echo htmlspecialchars($post['title']); ?></h2>
-            <!-- Bild des Posts -->
+
             <?php if ($post['image_url']): ?>
                 <img src="<?php echo htmlspecialchars($post['image_url']); ?>" alt="Blog image">
             <?php endif; ?>
@@ -118,16 +150,31 @@ $posts = $stmt->fetchAll();
             <p class="blog-content"><?php echo nl2br(htmlspecialchars($post['content'])); ?></p>
 
             <div class="blog-meta">
-
                 <span>By: <?php echo htmlspecialchars($author['username']); ?></span>
-
                 <span>Published on: <?php echo date('F j, Y, g:i a', strtotime($post['created_at'])); ?></span>
+            </div>
+
+            <div class="rating-stars">
+                <?php for ($star = 1; $star <= 5; $star++): ?>
+                    <form action="rate.php" method="POST" style="display: inline;">
+                        <input type="hidden" name="post_id" value="<?php echo $post['id']; ?>">
+                        <input type="hidden" name="rating" value="<?php echo $star; ?>">
+                        <button type="submit" style="background: none; border: none; padding: 0;">
+                            <label title="<?php echo $star; ?> Stars">
+                                ★
+                            </label>
+                        </button>
+                    </form>
+                <?php endfor; ?>
+            </div>
+            <div class="blog-meta">
+                <span>Average rating: <?php echo number_format($averageRating, 1); ?> (<?php echo $totalRatings; ?> reviews)</span>
             </div>
         </div>
     <?php endforeach; ?>
 <?php endif; ?>
 
-<!-- Footer -->
+
 <footer>
     <p>&copy; 2024 | Zehras Blog</p>
 </footer>

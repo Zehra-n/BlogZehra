@@ -2,32 +2,26 @@
 require "templates/header.php";
 require 'db.php';
 
-// Prüfe, ob der POST-Request erfolgt ist, um die Registrierung zu verarbeiten
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
-    // Überprüfen, ob der Benutzername bereits existiert
     try {
         $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE username = :username");
         $stmt->execute(['username' => $username]);
         $existingUserCount = $stmt->fetchColumn();
 
         if ($existingUserCount > 0) {
-            // Wenn der Benutzername bereits existiert, gib eine Fehlermeldung aus
             $error_message = "Username is already taken. Please choose a different one.";
         } else {
-            // Wenn der Benutzername nicht existiert, fahre fort mit der Registrierung
             $hashed_password = password_hash($password, PASSWORD_BCRYPT);
             $stmt = $pdo->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
             $stmt->execute(['username' => $username, 'password' => $hashed_password]);
 
-            // Weiterleitung zur Login-Seite nach erfolgreicher Registrierung
             header("Location: login.php");
             exit;
         }
     } catch (PDOException $e) {
-        // Fehlerbehandlung, falls etwas schief geht
         $error_message = "Error during registration: " . htmlspecialchars($e->getMessage());
     }
 }
@@ -127,7 +121,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="signup-container">
         <h2>Sign up</h2>
 
-        <!-- Registrierung Formular -->
         <form action="signup.php" method="POST" class="signup-form">
             <div class="form-group">
                 <label for="username">Username:</label>

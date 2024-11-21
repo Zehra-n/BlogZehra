@@ -27,6 +27,9 @@ switch ($page) {
     case 'kollegen.php':
         require $viewDir . '/kollegen.php';
         break;
+    case 'rate.php':
+        require $viewDir . '/rate.php';
+        break;
     default:
         http_response_code(404);
         require $viewDir . '/404_view.php';

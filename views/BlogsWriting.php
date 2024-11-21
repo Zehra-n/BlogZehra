@@ -35,6 +35,8 @@
         form {
             display: flex;
             flex-direction: column;
+            align-items: center; /* Stellt sicher, dass die Formularelemente zentriert sind */
+            width: 100%;
         }
 
         label {
@@ -43,17 +45,21 @@
             color: #333;
         }
 
-        input[type="text"], textarea {
+        input[type="text"],
+        textarea,
+        input[type="url"] {
             margin-bottom: 15px;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 20px;
             font-size: 15px;
+            width: 100%;
+            max-width: 500px; /* Maximale Breite für Textfelder */
         }
 
         textarea {
             resize: vertical;
-            width: 500px;
+            height: 200px; /* Standardhöhe für Textarea */
         }
 
         button {
@@ -67,29 +73,82 @@
             cursor: pointer;
             font-size: 16px;
             height: 50px;
+            width: 100%; /* Button nimmt die gesamte Breite ein */
+            max-width: 500px;
         }
 
         button:hover {
             background-color: #7b29a8;
         }
 
-        .success-message {
-            background-color: #d4edda;
-            color: #155724;
+        .success-message,
+        .error-message {
             padding: 15px;
             margin-top: 20px;
             border-radius: 5px;
             text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
         }
 
         .error-message {
             background-color: #f8d7da;
             color: #721c24;
-            padding: 15px;
-            margin-top: 20px;
-            border-radius: 5px;
-            text-align: center;
         }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #5a0d80;
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            main {
+                width: 90%; /* Auf kleineren Geräten wird die Breite angepasst */
+                margin: 20px auto;
+            }
+
+            h1 {
+                font-size: 1.5rem; /* Kleinere Schriftgröße für kleine Bildschirme */
+            }
+
+            input[type="text"],
+            textarea,
+            input[type="url"],
+            button {
+                max-width: 100%; /* Stellt sicher, dass die Eingabefelder und Buttons die gesamte Breite einnehmen */
+            }
+
+            textarea {
+                height: 150px; /* Kleinere Textarea auf kleineren Geräten */
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.2rem; /* Noch kleinere Schriftgröße für sehr kleine Geräte */
+            }
+
+            label {
+                font-size: 14px; /* Kleinere Beschriftung */
+            }
+
+            input[type="text"],
+            textarea,
+            input[type="url"],
+            button {
+                font-size: 14px; /* Kleinere Schriftgröße für Eingabefelder und Buttons */
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -110,10 +169,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = trim($_POST['title']);
     $content = trim($_POST['content']);
     $image_url = trim($_POST['image']);
-    $author_id = $_SESSION['user_id']; // Angemeldeter Benutzer
+    $author_id = $_SESSION['user_id'];
 
     try {
-        // Blog-Beitrag speichern
         $stmt = $pdo->prepare("INSERT INTO posts (title, content, image_url, author_id) VALUES (:title, :content, :image_url, :author_id)");
         $stmt->execute([
             'title' => $title,
@@ -122,10 +180,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'author_id' => $author_id,
         ]);
 
-        // Erfolgsnachricht
         echo "<div class='success-message'>Post created successfully! <a href='blogs.php'>To the blogs</a></div>";
     } catch (PDOException $e) {
-        // Fehlermeldung
+
         echo "<div class='error-message'>Error: " . $e->getMessage() . "</div>";
     }
 }
