@@ -54,14 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-color: #f9f9f9;
         }
 
-        main {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
 
         .blog-info-container {
             background-color: #f9f9f9;
@@ -80,7 +72,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-align: center;
         }
 
-        .login-container, .logged-in-container {
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .logged-in-container {
             width: 100%;
             max-width: 400px;
             background-color: #fff;

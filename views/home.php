@@ -18,8 +18,8 @@
         <a href="BlogsWriting.php" class="card">
             <h2>Write your own blog!</h2>
         </a>
-        <a href="login.php" class="card">
-            <h2>Login</h2>
+        <a href="kollegen.php" class="card">
+            <h2>BLJ-Blogs</h2>
         </a>
     </div>
 </main>

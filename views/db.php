@@ -1,27 +1,27 @@
 <?php
 
-$host1 = 'localhost';
-$db1 = 'blog';
-$user1 = 'root';
-$pass1 = '';
+$host_local = 'localhost';
+$db_local = 'blog';
+$user_local = 'root';
+$pass_local = '';
 
 try {
-    $pdo1 = new PDO("mysql:host=$host1;dbname=$db1;charset=utf8", $user1, $pass1);
-    $pdo1->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo = new PDO("mysql:host=$host_local;dbname=$db_local;charset=utf8", $user_local, $pass_local);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    die("Verbindung zur ersten Datenbank fehlgeschlagen: " . $e->getMessage());
+    die("Verbindung zur lokalen Datenbank fehlgeschlagen: " . $e->getMessage());
 }
 
 
-$host2 = 'mysql2.webland.ch';
-$db2 = 'd041e_urs';
-$user2 = 'd041e_urs_ro';
-$pass2 = 'PW_d041e_urs_ro';
+$host_remote = 'mysql2.webland.ch';
+$db_remote = 'd041e_urs';
+$user_remote = 'd041e_urs_ro';
+$pass_remote = 'PW_d041e_urs_ro';
 
 try {
-    $pdo2 = new PDO("mysql:host=$host2;dbname=$db2;charset=utf8", $user2, $pass2);
-    $pdo2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo_remote = new PDO("mysql:host=$host_remote;dbname=$db_remote;charset=utf8", $user_remote, $pass_remote);
+    $pdo_remote->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    die("Verbindung zur zweiten Datenbank fehlgeschlagen: " . $e->getMessage());
+    die("Verbindung zur entfernten Datenbank fehlgeschlagen: " . $e->getMessage());
 }
 ?>

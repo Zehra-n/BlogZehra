@@ -87,7 +87,7 @@ $posts = $stmt->fetchAll();
         }
 
         .blog-meta span {
-            display: block; /* Damit jeder Meta-Tag auf einer neuen Zeile erscheint */
+            display: block;
             margin-bottom: 5px;
         }
     </style>
@@ -118,9 +118,9 @@ $posts = $stmt->fetchAll();
             <p class="blog-content"><?php echo nl2br(htmlspecialchars($post['content'])); ?></p>
 
             <div class="blog-meta">
-                <!-- Autor anzeigen -->
+
                 <span>By: <?php echo htmlspecialchars($author['username']); ?></span>
-                <!-- Erstellungsdatum formatieren -->
+
                 <span>Published on: <?php echo date('F j, Y, g:i a', strtotime($post['created_at'])); ?></span>
             </div>
         </div>

@@ -14,6 +14,7 @@
             <ul>
                 <li><a href="blogs.php">Blogs</a></li>
                 <li><a href="BlogsWriting.php">YOUR Blog</a></li>
+                <li><a href="kollegen.php">BLJ-Blogs</a></li>
                 <li><a href="login.php">Login</a></li>
             </ul>
         </nav>
