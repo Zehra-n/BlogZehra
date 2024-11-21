@@ -1,4 +1,4 @@
-<?php require "templates/header.php" ?>
+<?php require "templates/header.php"; ?>
 
 <!DOCTYPE html>
 <html lang="de">
@@ -16,7 +16,7 @@
         }
 
         main {
-            width: 600px;
+            width: 60%;
             margin: 50px auto;
             padding: 20px;
             background: white;
@@ -57,7 +57,8 @@
         }
 
         button {
-            margin-top: 20px;
+            margin-top: 30px;
+            margin-bottom: 30px;
             padding: 10px 15px;
             background-color: #5a0d80;
             color: white;
@@ -75,7 +76,7 @@
 </head>
 <body>
 <main>
-    <h1>Schreibe deinen Blog!</h1>
+    <h1>Write your own blog!</h1>
     <form action="BlogsWriting.php" method="POST">
 
         <label for="title">Titel:</label>
@@ -91,6 +92,41 @@
         <button type="submit">Beitrag erstellen</button>
     </form>
 </main>
+
+<?php
+require 'db.php';
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $title = trim($_POST['title']);
+    $content = trim($_POST['content']);
+    $image_url = trim($_POST['image']);
+    $author_id = $_SESSION['user_id']; // Angemeldeter Benutzer
+
+    try {
+        // Blog-Beitrag speichern
+        $stmt = $pdo->prepare("INSERT INTO posts (title, content, image_url, author_id) VALUES (:title, :content, :image_url, :author_id)");
+        $stmt->execute([
+            'title' => $title,
+            'content' => $content,
+            'image_url' => $image_url,
+            'author_id' => $author_id,
+        ]);
+
+        echo "Beitrag erfolgreich erstellt! <a href='blogs.php'>Zu den Beiträgen</a>";
+    } catch (PDOException $e) {
+        echo "Fehler beim Erstellen des Beitrags: " . $e->getMessage();
+    }
+}
+?>
 
 <footer>
     <p>&copy; 2024 | Zehras Blog</p>

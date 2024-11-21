@@ -12,9 +12,8 @@
         <h1><a href="zehra">Zehras Blog</a></h1>
         <nav>
             <ul>
-                <li><a href="Beiträge.php">Blogs</a></li>
-                <li><a href="BlogsWriting.php">Dein Blog</a></li>
-                <li><a href="signup.php">Sign Up</a></li>
+                <li><a href="blogs.php">Blogs</a></li>
+                <li><a href="BlogsWriting.php">YOUR Blog</a></li>
                 <li><a href="login.php">Login</a></li>
             </ul>
         </nav>

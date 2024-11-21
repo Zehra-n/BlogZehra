@@ -9,8 +9,8 @@ switch ($page) {
     case 'index.php':
         require $viewDir . '/home.php';
         break;
-    case 'Beiträge.php':
-        require $viewDir . '/Beiträge.php';
+    case 'blogs.php':
+        require $viewDir . '/blogs.php';
         break;
     case 'BlogsWriting.php':
         require $viewDir . '/BlogsWriting.php';
@@ -20,6 +20,9 @@ switch ($page) {
         break;
     case 'signup.php':
         require $viewDir . '/signup.php';
+        break;
+    case 'logout.php':
+        require $viewDir . '/logout.php';
         break;
     default:
         http_response_code(404);

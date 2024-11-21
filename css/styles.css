@@ -10,7 +10,7 @@ body {
     flex-direction: column; /* Stellt sicher, dass der Inhalt und Footer in einer Spalte angeordnet sind */
     min-height: 100%; /* Sorgt dafür, dass der Body mindestens die Höhe des Viewports hat */
     font-family: Arial, sans-serif;
-    background-color: #ffffff;
+    background-color: #f9f9f9;
     color: #333;
     margin: 0;
 }

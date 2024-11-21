@@ -1,4 +1,4 @@
-<?php require "templates/header.php" ?> <!-- Header einbinden -->
+<?php require "templates/header.php" ?>
 
 <!DOCTYPE html>
 <html lang="de">
@@ -12,11 +12,11 @@
 
 <main>
     <div class="cards">
-        <a href="Beiträge.php" class="card">
+        <a href="blogs.php" class="card">
             <h2>Blogs</h2>
         </a>
         <a href="BlogsWriting.php" class="card">
-            <h2>Schreibe deinen Blog!</h2>
+            <h2>Write your own blog!</h2>
         </a>
         <a href="login.php" class="card">
             <h2>Login</h2>

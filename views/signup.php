@@ -1,4 +1,37 @@
-<?php require "templates/header.php"; ?>
+<?php
+require "templates/header.php";
+require 'db.php';
+
+// Prüfe, ob der POST-Request erfolgt ist, um die Registrierung zu verarbeiten
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
+
+    // Überprüfen, ob der Benutzername bereits existiert
+    try {
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE username = :username");
+        $stmt->execute(['username' => $username]);
+        $existingUserCount = $stmt->fetchColumn();
+
+        if ($existingUserCount > 0) {
+            // Wenn der Benutzername bereits existiert, gib eine Fehlermeldung aus
+            $error_message = "Username is already taken. Please choose a different one.";
+        } else {
+            // Wenn der Benutzername nicht existiert, fahre fort mit der Registrierung
+            $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+            $stmt = $pdo->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
+            $stmt->execute(['username' => $username, 'password' => $hashed_password]);
+
+            // Weiterleitung zur Login-Seite nach erfolgreicher Registrierung
+            header("Location: login.php");
+            exit;
+        }
+    } catch (PDOException $e) {
+        // Fehlerbehandlung, falls etwas schief geht
+        $error_message = "Error during registration: " . htmlspecialchars($e->getMessage());
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="de">
@@ -8,7 +41,7 @@
     <title>Sign Up - Blog</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Signup-Container Design */
+
         .signup-container {
             width: 100%;
             max-width: 400px;
@@ -20,14 +53,12 @@
             text-align: center;
         }
 
-        /* Signup Titel */
         .signup-container h2 {
             font-size: 2rem;
             color: #6a0dad;
             margin-bottom: 1.5rem;
         }
 
-        /* Form Group */
         .signup-container .form-group {
             margin-right: 35px;
             margin-bottom: 1.2rem;
@@ -53,7 +84,6 @@
             border-color: #6a0dad;
         }
 
-        /* Submit Button */
         .signup-container .submit-btn {
             width: 100%;
             padding: 1rem;
@@ -70,7 +100,6 @@
             background-color: #8b2bb3;
         }
 
-        /* Styling für den Link-Text im Signup-Formular */
         .signup-container p {
             margin-top: 1.5rem;
         }
@@ -84,35 +113,49 @@
             text-decoration: underline;
         }
 
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            font-size: 1rem;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 
 <main>
     <div class="signup-container">
-        <h2>Registrieren</h2>
+        <h2>Sign up</h2>
 
-        <form action="signup_action.php" method="POST" class="signup-form">
-
+        <!-- Registrierung Formular -->
+        <form action="signup.php" method="POST" class="signup-form">
             <div class="form-group">
-                <label for="username">Benutzername:</label>
-                <input type="text" id="username" name="username" required value="<?= isset($username) ? htmlspecialchars($username) : '' ?>">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
             </div>
 
             <div class="form-group">
-                <label for="password">Passwort:</label>
+                <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
 
-            <button type="submit" class="submit-btn">Registrieren</button>
+            <button type="submit" class="submit-btn">Register</button>
         </form>
 
-        <p>Bereits ein Konto? <a href="login.php">Jetzt einloggen</a></p>
+        <p>Already have an account? <a href="login.php"> Log in</a></p>
+
+        <!-- Fehlernachricht, falls der Benutzername bereits vergeben ist oder andere Fehler auftreten -->
+        <?php
+        if (isset($error_message)) {
+            echo "<p class='error-message'>$error_message</p>";
+        }
+        ?>
     </div>
 </main>
 
+<footer>
+    <p>&copy; 2024 | Zehras Blog</p>
+</footer>
 
 </body>
 </html>
-
-
