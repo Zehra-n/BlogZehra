@@ -1,0 +1,34 @@
+<?php
+$host = 'mysql2.webland.ch';
+$dbname = 'd041e_zenuhiu';
+$username = 'd041e_zenuhiu';
+$password = 'BLJ_db_2024';
+
+try {
+    // PDO-Verbindung zur lokalen Datenbank herstellen
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Verbindung fehlgeschlagen: " . $e->getMessage());
+}
+
+$conn = new mysqli($host, $username, $password, $dbname);
+
+// models/db.php
+function getDatabaseConnection() {
+    try {
+        $pdo = new PDO('mysql:host=mysql2.webland.ch;dbname=d041e_zenuhiu', 'd041e_zenuhiu', 'BLJ_db_2024');
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $pdo;
+    } catch (PDOException $e) {
+        die("Verbindungsfehler: " . $e->getMessage());
+    }
+}
+
+if ($conn->connect_error) {
+    die("Verbindung fehlgeschlagen: " . $conn->connect_error);
+}
+
+// Optional: Setze den Standard-Zeichensatz für die Verbindung
+$conn->set_charset("utf8");
