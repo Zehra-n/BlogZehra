@@ -20,13 +20,7 @@ $blogs = $stmt->fetchAll();
 require "templates/header.php";
 ?>
 
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blogs der BLJ-Kollegen (2024)</title>
-    <link rel="stylesheet" href="style.css">
+<title>Blogs der BLJ-Kollegen (2024)</title>
     <style>
         h1 {
             font-size: 2.5rem;
@@ -52,6 +46,7 @@ require "templates/header.php";
         .author-item a {
             text-decoration: none;
             color: #6a0dad;
+            background: #d8bfd8;
             font-size: 1.2rem;
             font-weight: bold;
             padding: 10px;
@@ -63,7 +58,7 @@ require "templates/header.php";
 
         .author-item a:hover {
             background-color: #6a0dad;
-            color: white;
+            color: #fffafa;
         }
 
         .no-blogs {
@@ -73,10 +68,7 @@ require "templates/header.php";
             margin-top: 20px;
         }
     </style>
-</head>
-<body>
-
-<h1>BLJ-Blogs</h1>
+<h1>Other interesting blogs!</h1>
 
 <?php if (empty($blogs)): ?>
     <p class="no-blogs">There are currently no blogs.</p>
@@ -95,6 +87,3 @@ require "templates/header.php";
 <footer>
     <p>&copy; 2024 | Zehras Blog</p>
 </footer>
-
-</body>
-</html>

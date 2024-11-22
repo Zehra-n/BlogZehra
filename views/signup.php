@@ -27,19 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - Blog</title>
-    <link rel="stylesheet" href="style.css">
+<title>Sign Up - Blog</title>
     <style>
 
         .signup-container {
             width: 100%;
             max-width: 400px;
-            background-color: #fff;
+            background-color: #fffafa;
             padding: 2rem;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -82,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             width: 100%;
             padding: 1rem;
             background-color: #6a0dad;
-            color: white;
+            color: #fffafa;
             font-size: 1.1rem;
             border: none;
             border-radius: 5px;
@@ -114,9 +108,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-align: center;
         }
     </style>
-</head>
-<body>
-
 <main>
     <div class="signup-container">
         <h2>Sign up</h2>
@@ -148,6 +139,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <footer>
     <p>&copy; 2024 | Zehras Blog</p>
 </footer>
-
-</body>
-</html>

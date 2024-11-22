@@ -1,68 +1,36 @@
 <?php
-
-$host_local = 'localhost';
-$db_local = 'blog';
-$user_local = 'root';
-$pass_local = '';
+$host = 'localhost';
+$dbname = 'blog';
+$username = 'root';
+$password = '';
 
 try {
-    $pdo = new PDO("mysql:host=$host_local;dbname=$db_local;charset=utf8", $user_local, $pass_local);
+    // PDO-Verbindung zur lokalen Datenbank herstellen
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    die("Verbindung zur lokalen Datenbank fehlgeschlagen: " . $e->getMessage());
+    die("Verbindung fehlgeschlagen: " . $e->getMessage());
 }
 
+$conn = new mysqli($host, $username, $password, $dbname);
 
-$host_remote = 'mysql2.webland.ch';
-$db_remote = 'd041e_urs';
-$user_remote = 'd041e_urs_ro';
-$pass_remote = 'PW_d041e_urs_ro';
-
-try {
-    $pdo_remote = new PDO("mysql:host=$host_remote;dbname=$db_remote;charset=utf8", $user_remote, $pass_remote);
-    $pdo_remote->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Verbindung zur entfernten Datenbank fehlgeschlagen: " . $e->getMessage());
-}
-?>
-
-<?php
-
-// Verbindung zur lokalen Datenbank
-if (!isset($GLOBALS['pdo'])) {
-
-    $host_local = 'localhost';
-    $db_local = 'blog';
-    $user_local = 'root';
-    $pass_local = '';
-
+// models/db.php
+function getDatabaseConnection() {
     try {
-        $GLOBALS['pdo'] = new PDO("mysql:host=$host_local;dbname=$db_local;charset=utf8", $user_local, $pass_local, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ]);
+        $pdo = new PDO('mysql:host=localhost;dbname=blog', 'root', '');
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $pdo;
     } catch (PDOException $e) {
-        die("Verbindung zur lokalen Datenbank fehlgeschlagen: " . $e->getMessage());
+        die("Verbindungsfehler: " . $e->getMessage());
     }
 }
 
-// Verbindung zur entfernten Datenbank
-if (!isset($GLOBALS['pdo_remote'])) {
-
-    $host_remote = 'mysql2.webland.ch';
-    $db_remote = 'd041e_urs';
-    $user_remote = 'd041e_urs_ro';
-    $pass_remote = 'PW_d041e_urs_ro';
-
-    try {
-        $GLOBALS['pdo_remote'] = new PDO("mysql:host=$host_remote;dbname=$db_remote;charset=utf8", $user_remote, $pass_remote, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ]);
-    } catch (PDOException $e) {
-        die("Verbindung zur entfernten Datenbank fehlgeschlagen: " . $e->getMessage());
-    }
+if ($conn->connect_error) {
+    die("Verbindung fehlgeschlagen: " . $conn->connect_error);
 }
-?>
+
+// Optional: Setze den Standard-Zeichensatz für die Verbindung
+$conn->set_charset("utf8");
+
+

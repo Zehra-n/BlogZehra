@@ -39,53 +39,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Blog</title>
-    <link rel="stylesheet" href="style.css">
+<title>Login - Blog</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-        }
-
-
-        .blog-info-container {
-            background-color: #f9f9f9;
-            padding: 10px 40px;
-            border-radius: 10px;
-            max-width: 90%;
-            box-sizing: border-box;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .blog-info-container h1 {
-            font-size: 2rem;
-            color: #6a0dad;
-            margin: 0;
-            text-align: center;
-        }
 
         .login-container {
             width: 100%;
             max-width: 400px;
-            background-color: #fff;
+            background-color: #fffafa;
             padding: 2rem;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 50px auto;
             text-align: center;
         }
 
         .logged-in-container {
             width: 100%;
             max-width: 400px;
-            background-color: #fff;
+            background-color: #fffafa;
             padding: 2rem;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -126,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             width: 100%;
             padding: 1rem;
             background-color: #6a0dad;
-            color: white;
+            color: #fffafa;
             font-size: 1.1rem;
             border: none;
             border-radius: 5px;
@@ -158,9 +129,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-align: center;
         }
 
+
     </style>
-</head>
-<body>
+
 <main>
     <?php if ($userLoggedIn): ?>
         <div class="logged-in-container">
@@ -169,9 +140,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p><a href="BlogsWriting.php">Write your own blog!</a></p>
         </div>
     <?php else: ?>
-        <div class="blog-info-container">
-            <h1>Log in to write your own blog!</h1>
-        </div>
 
         <div class="login-container">
             <h2>Login</h2>
@@ -199,6 +167,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <footer>
     <p>&copy; 2024 | Zehras Blog</p>
 </footer>
-
-</body>
-</html>

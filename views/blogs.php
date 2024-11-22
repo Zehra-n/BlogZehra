@@ -11,13 +11,7 @@ $stmt = $pdo->query("SELECT * FROM posts ORDER BY created_at DESC");
 $posts = $stmt->fetchAll();
 ?>
 
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blogs</title>
-    <link rel="stylesheet" href="style.css">
+<title>Blogs</title>
     <style>
         h1 {
             font-size: 2.5rem;
@@ -115,9 +109,8 @@ $posts = $stmt->fetchAll();
         .rating-stars label:hover ~ label {
             color: #ffd700;
         }
+
     </style>
-</head>
-<body>
 
 <h1>Blogs</h1>
 
@@ -178,6 +171,3 @@ $posts = $stmt->fetchAll();
 <footer>
     <p>&copy; 2024 | Zehras Blog</p>
 </footer>
-
-</body>
-</html>

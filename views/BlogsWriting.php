@@ -32,13 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neuen Beitrag erstellen</title>
-    <link rel="stylesheet" href="styles.css">
+
+<title>Neuen Beitrag erstellen</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -51,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             width: 60%;
             margin: 50px auto;
             padding: 20px;
-            background: white;
+            background: #fffafa;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
@@ -146,8 +141,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     </style>
-</head>
-<body>
 <?php if (isset($success_message)): ?>
     <div class="success-message"><?= $success_message ?></div>
 <?php elseif (isset($error_message)): ?>
@@ -171,5 +164,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <footer>
     <p>&copy; 2024 | Zehras Blog</p>
 </footer>
-</body>
-</html>
