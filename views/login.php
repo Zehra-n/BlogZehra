@@ -7,8 +7,14 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 if (isset($_SESSION['user_id'])) {
-
     $userLoggedIn = true;
+    $userId = $_SESSION['user_id'];
+    $username = $_SESSION['username'];
+
+    // Hole die Anzahl der Posts des Benutzers
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM posts WHERE author_id = :user_id");
+    $stmt->execute(['user_id' => $userId]);
+    $postCount = $stmt->fetchColumn();
 } else {
     $userLoggedIn = false;
 }
@@ -23,124 +29,126 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
-
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
 
             $userLoggedIn = true;
-        } else {
+            $username = $user['username'];
+            $userId = $user['id'];
 
+            // Hole die Anzahl der Posts des Benutzers
+            $stmt = $pdo->prepare("SELECT COUNT(*) FROM posts WHERE author_id = :user_id");
+            $stmt->execute(['user_id' => $userId]);
+            $postCount = $stmt->fetchColumn();
+        } else {
             $error_message = 'Username or password is incorrect.';
         }
     } catch (PDOException $e) {
-
         $error_message = 'Login error: ' . htmlspecialchars($e->getMessage());
     }
 }
 ?>
 
 <title>Login - Blog</title>
-    <style>
+<style>
+    .login-container {
+        width: 100%;
+        max-width: 400px;
+        background-color: #fffafa;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin: 50px auto;
+        text-align: center;
+    }
 
-        .login-container {
-            width: 100%;
-            max-width: 400px;
-            background-color: #fffafa;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin: 50px auto;
-            text-align: center;
-        }
+    .logged-in-container {
+        width: 100%;
+        max-width: 400px;
+        background-color: #fffafa;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
 
-        .logged-in-container {
-            width: 100%;
-            max-width: 400px;
-            background-color: #fffafa;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
+    .login-container h2 {
+        font-size: 2rem;
+        color: #6a0dad;
+        margin-bottom: 1.5rem;
+    }
 
-        .login-container h2 {
-            font-size: 2rem;
-            color: #6a0dad;
-            margin-bottom: 1.5rem;
-        }
+    .form-group {
+        margin-bottom: 15px;
+        text-align: left;
+    }
 
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        color: #333;
+    }
 
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            color: #333;
-        }
+    .form-group input {
+        width: 366px;
+        padding: 1rem;
+        margin-top: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
 
-        .form-group input {
-            width: 366px;
-            padding: 1rem;
-            margin-top: 0.5rem;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
+    .form-group input:focus {
+        border-color: #6a0dad;
+    }
 
-        .form-group input:focus {
-            border-color: #6a0dad;
-        }
+    .submit-btn {
+        width: 100%;
+        padding: 1rem;
+        background-color: #6a0dad;
+        color: #fffafa;
+        font-size: 1.1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
 
-        .submit-btn {
-            width: 100%;
-            padding: 1rem;
-            background-color: #6a0dad;
-            color: #fffafa;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+    .submit-btn:hover {
+        background-color: #8b2bb3;
+    }
 
-        .submit-btn:hover {
-            background-color: #8b2bb3;
-        }
+    p {
+        margin-top: 1.5rem;
+    }
 
-        p {
-            margin-top: 1.5rem;
-        }
+    p a {
+        color: #6a0dad;
+        text-decoration: none;
+    }
 
-        p a {
-            color: #6a0dad;
-            text-decoration: none;
-        }
+    p a:hover {
+        text-decoration: underline;
+    }
 
-        p a:hover {
-            text-decoration: underline;
-        }
+    .error-message {
+        color: red;
+        margin-top: 10px;
+        font-size: 1rem;
+        text-align: center;
+    }
 
-        .error-message {
-            color: red;
-            margin-top: 10px;
-            font-size: 1rem;
-            text-align: center;
-        }
-
-
-    </style>
+</style>
 
 <main>
     <?php if ($userLoggedIn): ?>
         <div class="logged-in-container">
-            <h2>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h2>
+            <h2>Welcome, <?php echo htmlspecialchars($username); ?>!</h2>
             <p>You are logged in. <a href="logout.php" class="btn">Log out</a></p>
-            <p><a href="BlogsWriting.php">Write your own blog!</a></p>
+            <p><a href="BlogsWriting.php">Write your own post!</a></p>
+            <p><a href="account.php">Go to your account</a></p>
         </div>
     <?php else: ?>
-
         <div class="login-container">
             <h2>Login</h2>
             <form action="login.php" method="POST" class="login-form">
@@ -157,7 +165,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php if (isset($error_message)): ?>
                     <div class="error-message"><?php echo $error_message; ?></div>
                 <?php endif; ?>
-
             </form>
             <p>No account? <a href="signup.php">Sign up</a></p>
         </div>
