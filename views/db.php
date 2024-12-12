@@ -15,7 +15,6 @@ try {
 
 $conn = new mysqli($host, $username, $password, $dbname);
 
-// models/db.php
 function getDatabaseConnection() {
     try {
         $pdo = new PDO('mysql:host=localhost;dbname=blog', 'root', '');
@@ -30,7 +29,6 @@ if ($conn->connect_error) {
     die("Verbindung fehlgeschlagen: " . $conn->connect_error);
 }
 
-// Optional: Setze den Standard-Zeichensatz für die Verbindung
 $conn->set_charset("utf8");
 
 

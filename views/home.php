@@ -3,11 +3,11 @@
 <main>
     <div class="cards">
         <a href="blogs.php" class="card">
-            <h2>Blogs</h2>
+            <h2>Posts</h2>
             <p class="card-description">Read blog posts and rate them.</p>
         </a>
         <a href="BlogsWriting.php" class="card">
-            <h2>Write your own blog!</h2>
+            <h2>Write your own Post!</h2>
             <p class="card-description">Share your thoughts with us.</p>
         </a>
         <a href="kollegen.php" class="card">
@@ -36,11 +36,11 @@
         width: 250px;
         height: 200px;
         display: flex;
-        flex-direction: column; /* Stapelt Inhalt vertikal */
-        justify-content: center; /* Positioniert Überschrift mittig */
-        align-items: center; /* Zentriert Inhalt horizontal */
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-        gap: 10px; /* Abstand zwischen Überschrift und Untertitel */
+        gap: 10px;
     }
 
     .card:hover {

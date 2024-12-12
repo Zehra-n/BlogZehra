@@ -1,14 +1,13 @@
 <?php
-// Überprüfen, ob eine Session bereits gestartet wurde, um Fehler zu vermeiden
+
 if (session_status() === PHP_SESSION_NONE) {
-    session_start(); // Nur starten, wenn noch keine Session aktiv ist
+    session_start();
 }
 
 $page = basename($_SERVER['REQUEST_URI'] ?? '');
 
 $viewDir = "views";
 
-// Überprüfe, ob der Benutzer eingeloggt ist
 $userLoggedIn = isset($_SESSION['user_id']);
 
 switch ($page) {
@@ -26,7 +25,6 @@ switch ($page) {
         if ($userLoggedIn) {
             require $viewDir . '/BlogsWriting.php';
         } else {
-            // Weiterleitung zur Login-Seite, wenn der Benutzer nicht eingeloggt ist
             header("Location: login.php");
             exit();
         }
@@ -54,9 +52,8 @@ switch ($page) {
 
     case 'account.php':
         if ($userLoggedIn) {
-            require $viewDir . '/account.php';  // Zeige das Benutzerkonto, wenn der Benutzer eingeloggt ist
+            require $viewDir . '/account.php';
         } else {
-            // Weiterleitung zur Login-Seite, wenn der Benutzer nicht eingeloggt ist
             header("Location: login.php");
             exit();
         }

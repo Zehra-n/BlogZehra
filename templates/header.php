@@ -3,13 +3,13 @@
         <h1>
             <a href="zehra">
                 <img src="image/logo.png" alt="Zehras Blog Logo" class="logo">
-                Zehras Blog
+                Zehra's Blog
             </a>
         </h1>
         <nav>
             <ul>
                 <li><a href="blogs.php">Posts</a></li>
-                <li><a href="BlogsWriting.php">Write YOUR Blog</a></li>
+                <li><a href="BlogsWriting.php">Write YOUR Post</a></li>
                 <li><a href="kollegen.php">Explore</a></li>
                 <li><a href="login.php">Login</a></li>
             </ul>
